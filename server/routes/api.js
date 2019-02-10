@@ -25,7 +25,7 @@ router.get('/notes', function(req, res) {
 }); 
 
 // Get note by id
-router.get('/notes/:note_id', function(req, res) { 
+router.get('/note/:note_id', function(req, res) { 
     console.log("Get request for note with id: " + req.params.note_id);
 
     NoteModel.findById(req.params.note_id).exec(function(err, notecollection){ 
@@ -39,7 +39,7 @@ router.get('/notes/:note_id', function(req, res) {
 }); 
 
 // post new note to database 
-router.post('/notes', function(req, res) { 
+router.post('/note', function(req, res) { 
     console.log("Post request for note"); 
     let noteData = req.body;
     let note = new NoteModel(noteData);
@@ -55,12 +55,13 @@ router.post('/notes', function(req, res) {
 }); 
 
 // delete note by id
-router.delete('/notes/:note_id', function(req, res) { 
-    console.log("Get request for notes"); 
+router.delete('/note/:note_id', function(req, res) { 
 
-    var id = req.param("note_id");
+    var id = req.params.note_id;
 
-    NoteModel.remove({_id: id},function(err, result){ 
+    console.log("delete request for note with id: " + id); 
+
+    NoteModel.deleteOne({_id: id},function(err, result){ 
         if(err) { 
             res.status(401).send({err: 'Error: Could not delete note'});
         } 
